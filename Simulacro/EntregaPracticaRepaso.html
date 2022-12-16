@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repaso Objetos</title>
+    <script>
+    </script>
+</head>
+
+<body>
+    <script>
+        class InformacionEmpresa {
+            constructor(nombre, cif, direccion, telefono) {
+                this.nombre = nombre
+                this.cif = cif
+                this.direccion = direccion
+                this.telefono = telefono
+            }
+        };
+
+        class FacturaSimplificada extends InformacionEmpresa {
+            constructor(nombre, cif, direccion, telefono, fecha, id, descripcion, ventaIVA, venta, importeIVA) {
+                super(nombre, cif, direccion, telefono)
+                this.fecha = fecha;
+                this.id = id;
+                this.descripcion = descripcion;
+                this.ventaIVA = ventaIVA;
+                this.venta = venta;
+                this.importeIVA = importeIVA;
+            }
+
+            importe() {
+                return this.ventaIVA;
+            }
+
+            getInfo() {
+                return "Nombre Empresa: " + this.nombre +
+                    "<br>CIF Empresa: " + this.cif +
+                    "<br>Dirección Empresa: " + this.direccion +
+                    "<br>Telefono Empresa: " + this.telefono +
+                    "<br>Fecha Factura: " + this.fecha +
+                    "<br>ID Factura: " + this.id +
+                    "<br>Descripción Factura: " + this.descripcion +
+                    "<br>Venta con IVA: " + this.ventaIVA +
+                    "<br>Venta sin IVA: " + this.venta +
+                    "<br>IVA: " + this.importeIVA;
+            }
+        }
+
+        class Factura extends FacturaSimplificada {
+            constructor(nombre, cif, direccion, telefono, fecha, id, descripcion, ventaIVA, venta, importeIVA, nombreCliente, dniCliente, direccionCliente, telefonoCliente, emailCliente) {
+                super(nombre, cif, direccion, telefono, fecha, id, descripcion, ventaIVA, venta, importeIVA)
+                this.nombreCliente = nombreCliente;
+                this.dniCliente = dniCliente;
+                this.direccionCliente = direccionCliente;
+                this.telefonoCliente = telefonoCliente;
+                this.emailCliente = emailCliente;
+            }
+
+            getInfo() {
+                    return "<hr>Nombre Empresa: " + this.nombre +
+                        "<br>CIF Empresa: " + this.cif +
+                        "<br>Dirección Empresa: " + this.direccion +
+                        "<br>Telefono Empresa: " + this.telefono +
+                        "<br>Fecha Factura: " + this.fecha +
+                        "<br>ID Factura: " + this.id +
+                        "<br>Descripción Factura: " + this.descripcion +
+                        "<br>Venta con IVA: " + this.ventaIVA +
+                        "<br>Venta sin IVA: " + this.venta +
+                        "<br>IVA: " + this.importeIVA +
+                    "<br>Nombre Cliente: " + this.nombreCliente +
+                    "<br>DNI Cliente: " + this.dniCliente +
+                    "<br>Dirección Cliente: " + this.direccionCliente +
+                    "<br>Teléfono Cliente: " + this.telefonoCliente +
+                    "<br>Email Cliente: " + this.emailCliente;
+                }
+        }
+
+        let factura1 = new FacturaSimplificada("Endesa", "054621239P", "Av. Gaviota 54", 669321789, "15-04-2022", 1, "", 200, 180, 20);
+        let factura1Completa = new Factura("Endesa", "054621239P", "Av. Gaviota 54", 669321789, "15-04-2022", 1, "", 200, 180, 20, "Juan", "05444037P", "Av. Gigante 24", 669874512, "juan@gmail.com");
+        document.write(factura1.getInfo())
+        document.write(factura1Completa.getInfo())
+    </script>
+</body>
+
+</html>

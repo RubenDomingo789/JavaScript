@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)https://cipfpbatoi.github.io/materials/daw/dwc/01-js/ejercicios/ejemplos/ejemploDOM.html -->
+<html lang="es">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo de DOM3</title>
+</head>
+
+<body>
+  <h1 class="important">Ejemplo de DOM3</h1>
+  <p id="parrafo1">Vamos a ver una página de ejemplo para poder "jugar" con el DOM</p>
+  <h2>Algunos párrafos</h2>
+  <div id="lipsum">
+    <p id="parrafo2">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin feugiat ex in eleifend finibus. Morbi vulputate
+      iaculis tortor, nec luctus neque consectetur sit amet. Aliquam erat volutpat. Suspendisse auctor ante id est
+      hendrerit aliquam. Sed libero libero, bibendum eget rhoncus ut, consequat eget arcu. Maecenas ac fermentum elit.
+      Integer tempor rutrum erat at dapibus. Duis ornare ornare efficitur. Pellentesque eu nibh id arcu volutpat mollis
+      vitae eget dolor. Donec velit nibh, vestibulum et ante sed, interdum condimentum arcu. Vivamus in purus vitae nunc
+      iaculis venenatis et a neque. Etiam vulputate felis non est aliquam, id ultrices ipsum consequat.
+    </p>
+    <p id="parrafo3">
+      Vestibulum facilisis est in fringilla volutpat. Sed sollicitudin odio ac tristique placerat. Sed eleifend feugiat
+      consequat. Vivamus consequat tristique sem non suscipit. Praesent pulvinar pretium blandit. Sed at diam
+      condimentum, faucibus tellus ut, eleifend leo. Nullam sed rhoncus lectus. Maecenas eget ex eleifend, pulvinar
+      lectus ut, bibendum quam. Donec vestibulum interdum mattis.
+    </p>
+    <p id="parrafo4">
+      Duis vulputate condimentum massa sit amet pulvinar. Sed sollicitudin mauris in laoreet condimentum. Pellentesque
+      congue mauris libero, in scelerisque leo sodales sed. Phasellus tristique sodales consectetur. Morbi porttitor
+      mattis nibh. Nulla quis eros vitae dolor porttitor placerat ac eu nisl. Proin mattis ultrices tellus, eget
+      pharetra nibh pulvinar quis. In vitae ligula mi. Sed commodo commodo purus, nec dictum neque semper in. Donec
+      molestie libero leo, et hendrerit mauris efficitur eget. Nulla molestie bibendum blandit. Curabitur sed porttitor
+      mi. Sed aliquam felis et lacus pretium consectetur.
+    </p>
+  </div>
+  <h2>Una lista</h2>
+  <ul>
+    <li class="important">Donec sit amet eros id orci suscipit ultricies.</li>
+    <li>Vivamus et nibh accumsan, ultricies nisi vel, viverra nisl.</li>
+    <li class="important">Aenean imperdiet mi non augue tristique, sit amet sagittis nulla ultricies.</li>
+    <li class="important">Nullam vitae risus rutrum quam dapibus viverra.</li>
+  </ul>
+  <h2>Un formulario</h2>
+  <form>
+    <label for="input1">Dato 1
+      <input id="input1" type="text" size="20"><br>
+    </label>
+    <label for="input2">Dato 2
+      <input id="input2" type="text" size="20"><br>
+    </label>
+    <label for="input3">Dato 3
+      <input id="input3" type="text" size="20"><br>
+    </label>
+    <label>Escoge el sexo:<br>
+      <input type="radio" name="sexo" value="H">Hombre<br>
+      <input type="radio" name="sexo" value="M">Mujer
+    </label>
+
+    <p id="parrafo5">
+      <input type="button" id="button1" value="Button 1">
+      <input type="button" id="button2" value="Button 2">
+    </p>
+  </form>
+  <h2>Un área para texto</h2>
+  <textarea id="texto"></textarea>
+  <h2>Imágenes</h2>
+  <div id="image">
+    <img src="https://concepto.de/wp-content/uploads/2018/10/URL3-e1538665010929.jpg">
+  </div>
+  <h2>Botones</h2>
+  <button onclick="cambiarTextos()">Cambiar texto de párrafos</button><br>
+  <button onclick="cambiarClase()">Cambiar clases de párrafos</button><br>
+  <button onclick="quitarClase()">Quitar clases de párrafos</button><br>
+  <button onclick="crearParrafo()">Crear párrafos</button><br>
+  <button onclick="borrarUltimo()">Borrar último parrafo</button><br>
+  <button onclick="borrarPrimero()">Borrar primer parrafo</button><br>
+  <button onclick="remplazarParrafo()">Sustituir texto de primer párrafo</button><br>
+  <button onclick="crearImagen()">Crear imagen</button>
+</body>
+<script>
+
+  function cambiarTextos() {
+    for (var i = 1; i <= 5; i++) {
+      document.getElementById("parrafo" + i).innerHTML = "Parrafo " + i + " cambiado";
+    }
+  }
+
+  function cambiarClase() {
+    for (var i = 1; i <= 5; i++) {
+      document.getElementById("parrafo" + i).setAttribute("class","miClase");
+    }
+  }
+
+  function quitarClase() {
+    for (var i = 1; i <= 5; i++) {
+      document.getElementById("parrafo" + i).removeAttribute("class","miClase");
+    }
+  }
+
+  function crearParrafo() {
+    var texto = document.getElementById("texto").value;
+
+    var parrafo = document.createElement("p");
+    parrafo.innerText= texto;
+    parrafo.setAttribute("class","miClase");
+
+    document.querySelector("form").append(parrafo);
+  }
+
+  function crearParrafo() {
+    var texto = document.getElementById("texto").value;
+
+    var parrafo = document.createElement("p");
+    parrafo.innerText= texto;
+    parrafo.setAttribute("class","miClase");
+
+    document.querySelector("form").append(parrafo);
+  }
+
+  function borrarUltimo() {
+    var parrafos = document.querySelectorAll("p");
+    var ultimoParrafo = parrafos[parrafos.length-1];
+    ultimoParrafo.remove();
+  }
+
+  function borrarPrimero() {
+    var parrafo = document.querySelectorAll("p")[0];
+    parrafo.remove();
+  }
+
+  function remplazarParrafo() {
+    var parrafoAntiguo = document.getElementsByTagName("p")[0];
+
+    var parrafo = document.createElement("p");
+    var text = document.createTextNode("fdfsfasfasf");
+    parrafo.appendChild(text);
+
+    document.getElementsByTagName("body")[0].replaceChild(parrafo, parrafoAntiguo);
+  }
+
+  function crearImagen(){
+    var ruta = prompt("Introduzca una ruta con la imagen a cargar");
+
+    var imagen = document.createElement("img");
+    imagen.setAttribute("src", ruta);
+    imagen.setAttribute("alt",prompt("Introduce el texto alternativo: "));
+    
+    document.getElementById("image").append(imagen);
+  }
+</script>
+
+</html>

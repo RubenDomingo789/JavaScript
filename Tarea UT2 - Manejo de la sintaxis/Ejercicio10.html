@@ -1,0 +1,23 @@
+<html>
+
+<body>
+    <script>
+        function revertirCadena(cad){
+            return cad.split("").reverse().join("");
+        }
+
+        var texto = prompt("Introduce una cadena de texto: ");
+        var textoInvertido = revertirCadena(texto);
+
+        if (texto == textoInvertido){
+            alert("El texto es un palíndromo");
+        }
+        else {
+            alert("El texto no es un palíndromo");
+        }
+        
+    </script>
+
+</body>
+
+</html>

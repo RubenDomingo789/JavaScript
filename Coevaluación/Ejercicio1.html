@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1</title>
+    <script>
+        function is_number(num) {
+            return !isNaN(parseInt(num)) && isFinite(num) && num >= 1;
+        }
+        function numeroPar(numero) {
+            if (numero % 2 == 0) {
+                return ("El valor introducido es par");
+            }
+            else {
+                return ("El valor introducido es impar");
+            }
+        }
+
+        function numeroPrimo(numero) {
+            if (numero == 0 || numero == 1 || numero == 4) {
+                return "El valor introducido no es primo";
+            }
+            for (let x = 2; x < numero / 2; x++) {
+                if (numero % x == 0) {
+                    return "El valor introducido no es primo";
+                }
+            }
+            return "El valor introducido es primo";
+        }
+
+        function multiplosNumero(numero) {
+            let multiplos = [];
+            for (let x = 1; x <= 10; x++) {
+                multiplos.push(numero * x);
+            }
+            return "Multiplos de " + numero + ": " + multiplos;
+        }
+
+        function divisoresNumero(numero) {
+            let divisores = [];
+            for (let x = 1; x <= numero; x++) {
+                if (numero % x == 0){
+                    divisores.push(x);
+                }
+            }
+            return "Divisores de " + numero + ": " + divisores;
+        }
+
+        function binario(numero) {
+            let binary = Number(numero).toString(2);
+            return "Binario de " + numero + ": " + binary;
+        }
+    </script>
+</head>
+
+<body>
+    <script>
+        let num = prompt('Introduce un número mayor que 1: ');
+
+        if (is_number(num) == true) {
+            //Numero par o impar
+            alert(numeroPar(num));
+            console.log(numeroPar(num));
+            document.write(numeroPar(num) + "<hr>");
+
+            //Numero primo 
+            alert(numeroPrimo(num));
+            console.log(numeroPrimo(num));
+            document.write(numeroPrimo(num) + "<hr>")
+
+            //Múltiplos del número
+            alert(multiplosNumero(num));
+            console.log(multiplosNumero(num));
+            document.write(multiplosNumero(num)+ "<hr>");
+
+            //Divisores del número
+            alert(divisoresNumero(num));
+            console.log(divisoresNumero(num));
+            document.write(divisoresNumero(num)+ "<hr>");
+
+            //Binario del número
+            alert(binario(num));
+            console.log(binario(num));
+            document.write(binario(num));
+        }
+        else {
+            alert("Debes introducir un número entero mayor que 1.");
+        }
+    </script>
+</body>
+
+</html>

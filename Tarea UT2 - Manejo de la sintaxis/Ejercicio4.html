@@ -1,0 +1,37 @@
+<html>
+
+<body>
+    <script>
+        function getAleatorio() {
+            return Math.floor(Math.random() * 100) + 1;
+        }
+
+        var ale = getAleatorio();
+
+        while (true) {
+            var num = prompt("Introduce un numero del 1 al 100: ");
+
+            if (num == null) {
+                alert("Has cancelado el juego");
+                break;
+            }
+
+            else if (num < ale) {
+                alert("El numero a adivinar es mayor que el introducido");
+            }
+
+            else if (num > ale) {
+                alert("El numero a adivinar es menor que el introducido");
+            }
+
+            else if (num == ale) {
+                alert("Has adivinado el número");
+                break;
+            }    
+        }
+
+    </script>
+
+</body>
+
+</html>

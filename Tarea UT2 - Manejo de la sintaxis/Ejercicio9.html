@@ -1,0 +1,24 @@
+<html>
+
+<body>
+    <script>
+        var dni = prompt("Introduce tu DNI:");
+        var letrasDNI = ["T", "R", "W", "A", "G", "M", "Y", "F", "P", "D", "X", "B", "N", "J", "Z", "S", "Q", "V", "H", "L", "C", "K", "E"];
+
+        var letra = dni.split('');
+        var numero = letra[0] + letra[1] + letra[2] + letra[3] + letra[4] + letra[5] + letra[6] + letra[7];
+
+
+        if (dni.length != 9){
+            alert("El DNI debe contener 8 números y una letra");
+        }
+        else if (letra[8].toUpperCase() == letrasDNI[(numero % 23)] && dni.length == 9) {
+            alert("El DNI es correcto");
+        }
+        else {
+            alert("El DNI debe contener 8 números y una letra");
+        }
+    </script>
+</body>
+
+</html>

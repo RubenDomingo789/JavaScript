@@ -1,0 +1,117 @@
+<!--1.    Recoge los números introducidos por el usuario hasta que introduzca un número negativo.
+
+Nota 1: El usuario puede introducir números enteros o decimales.
+
+Nota 2: si el usuario introduce algo distinto a un número, debemos indicarle que se está esperando un número (en una alerta).
+
+Con el conjunto de números deberá calcularse y mostrarse (en el cuerpo de la página y por consola) lo siguiente:
+
+·        Los números introducidos por el usuario en el mismo orden en el que se han introducido.
+
+·        Indicar cuantos números ha introducido el usuario.
+
+·        La suma de todos los números introducidos.
+
+·        La media de todos los números introducidos.
+
+·        La mediana de todos los números introducidos. La mediana de un conjunto de datos, es el dato central del conjunto ordenado; 
+         cuando el número de datos de un conjunto es un número par, la mediana es la media de los dos datos centrales.
+
+ Ejemplo 1: 2, 4, 6, 7, 9 -> mediana = 6
+ Ejemplo 1: 2, 4, 6, 7, 7, 9 -> mediana = 6.5
+·        Los números introducidos ordenados de menor a mayor.
+
+·        Los números introducidos ordenados de mayor a menor.
+
+·        El mayor de los números introducidos.
+
+·        El menor de los números introducidos.
+
+·        Los números enteros comprendidos entre el menor y el mayor de los números introducidos.-->
+<DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Simulacro</title>
+    </head>
+    <body>
+        <script>
+            //funciones
+            function sumar(array) {
+                let resultado = 0;
+                for (i=0; i<numeros.length; i++) {
+                    resultado= resultado + parseFloat(array[i]);
+                }
+                return resultado;
+            }
+
+            function mediana(array) {
+                if (array.length%2==0) {
+                    document.write("La mediana de todos los numeros introducidos son: "+array[(array.length/2)-1]+" y "+array[array.length/2]+"<br/>");
+                    console.log("La mediana de todos los numeros introducidos son: "+array[(array.length/2)-1]+" y "+array[array.length/2]);
+                }
+                else {
+                    document.write("La mediana de todos los numeros introducidos es: "+array[(array.length-1)/2]+"<br/>");
+                    console.log("La mediana de todos los numeros introducidos son: "+array[(array.length-1)/2]);
+                }
+            }
+
+            function comprendidos(array) {
+                let entre = [];
+                let k=0;
+                for (i=array[array.length-1]; i<=array[0]; i++) {
+                    entre[k] = i;
+                    k++;
+                }
+                document.write("Los numeros entre el "+array[array.length-1]+" y el "+array[0]+" son "+entre+"<br/>");
+                console.log("Los numeros entre el "+array[array.length-1]+" y el "+array[0]+" son "+entre);
+            }
+
+            //programa
+            let numeros = [];
+            let j=0;
+            do {
+                numero = prompt('Introduce un numero');
+                if (isNaN(parseFloat(numero))) {
+                    alert("Introduce un NUMERO");
+                } else if (numero >= 0) {
+                    numeros[j] = numero;
+                    j++;
+                }
+            } while ((numero >= 0) || (isNaN(parseFloat(numero))));
+
+            //impresiones + llamadas
+            document.write("Ha introducido los numeros: "+numeros+"<br/>");
+            console.log("Ha introducido los numeros: "+numeros);
+
+            document.write("Has introducido "+(numeros.length)+" numero(s) <br/>");
+            console.log("Has introducido "+(numeros.length)+" numero(s)");
+
+
+            document.write("La suma de los numeros introducidos es -> "+sumar(numeros)+"<br/>");
+            console.log("La suma de los numeros introducidos es -> "+sumar(numeros));
+
+            document.write("La media de los numeros introducidos es -> "+sumar(numeros)/numeros.length+"<br/>");
+            console.log("La media de los numeros introducidos es -> "+sumar(numeros)/numeros.length);
+
+            mediana(numeros);
+
+            let Ordenado = numeros.sort((num1, num2) => num1-num2);
+
+            document.write("Ordenado: "+Ordenado+"<br/>");
+            console.log("Ordenado: "+Ordenado);
+            
+            document.write("El numero mas alto es: "+Ordenado[Ordenado.length-1]+" y el mas bajo "+Ordenado[0]+"<br/>");
+            console.log("El numero mas alto es: "+Ordenado[Ordenado.length-1]+" y el mas bajo "+Ordenado[0]);
+
+            let Reverso = Ordenado.reverse();
+
+            document.write("Del reves: "+Reverso+"<br/>");
+            console.log("Del reves: "+Reverso);
+
+            comprendidos(Reverso);
+
+            //lamento el desorden ^^'
+        </script>
+    </body>
+</html>

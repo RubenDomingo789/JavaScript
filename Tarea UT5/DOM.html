@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)https://cipfpbatoi.github.io/materials/daw/dwc/01-js/ejercicios/ejemplos/ejemploDOM.html -->
+<html lang="es">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplo de DOM3</title>
+</head>
+
+<body>
+    <h2>Botones</h2>
+    <button onclick="abrirVentana()">Abrir nueva ventana</button><br>
+    <button onclick="escribirTexto()">Agregar texto</button><br>
+    <button onclick="moverVentana()">Mover ventana</button><br>
+    <button onclick="cerrarVentana()">Cerrar ventana</button><br>
+</body>
+
+</html>
+<script>
+    var miVentana;
+    function abrirVentana() {
+        miVentana = window.open("", "Ventana", "height=200px,width=500px,left=100,top=200,location=yes");
+    }
+
+    function escribirTexto() {
+        if (window.miVentana) {
+            miVentana.document.write("<h1>Hola</h1>");
+        }
+    }
+
+    function moverVentana() {
+        if (window.miVentana) {
+            miVentana.moveBy(-100, 300);
+        }
+    }
+
+    function cerrarVentana() {
+        if (window.miVentana) {
+            miVentana.close();
+        }
+    }
+
+    function mostarMensaje() {
+        alert('Bienvenido a la pagina')
+    }
+    const idTimeout = setTimeout(mostarMensaje, 2000);
+</script>

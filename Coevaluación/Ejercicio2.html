@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 2</title>
+    <script>
+        function is_number(num) {
+            return !isNaN(parseFloat(num)) && isFinite(num);
+        }
+        function suma(numero1, numero2) {
+            return numero1 + numero2;
+        }
+
+        function resta(numero1, numero2) {
+            return numero1 - numero2;
+        }
+
+        function multiplicacion(numero1, numero2) {
+            return numero1 * numero2;
+        }
+
+        function division(numero1, numero2) {
+            return numero1 / numero2;
+        }
+
+        function media(numero1, numero2) {
+            return (numero1 + numero2) / 2;
+        }
+
+        function pares(numero1, numero2) {
+            var pares = [];
+            if (numero1 < numero2) {
+                for (var numero = numero1; numero <= numero2; numero++) {
+                    if (numero % 2 == 0) {
+                        pares.push(numero);
+                    }
+                }
+                return pares;
+            }
+            else {
+                for (var numero = numero1; numero <= numero2; numero++) {
+                    if (numero % 2 == 0) {
+                        pares.push(numero);
+                    }
+                }
+                return pares;
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <script>
+        let num1, num2;
+        num1 = parseFloat(prompt('Introduce un número: '));
+        num2 = parseFloat(prompt('Introduce otro número: '));
+
+        if (is_number(num1) && is_number(num2)) {
+            document.write("Suma de números: " + suma(num1, num2) + "<br>");
+            document.write("Resta de números: " + resta(num1, num2) + "<br>");
+            document.write("Multiplicación de números: " + multiplicacion(num1, num2) + "<br>");
+            document.write("División de números: " + division(num1, num2) + "<br>");
+            document.write("Media de números: " + media(num1, num2) + "<br>");
+            document.write("Pares de números: " + pares(num1, num2) + "<br>");
+        }
+        else if (!is_number(num1)) {
+            document.write("El primer valor introducido no es un número");
+        }
+        else {
+            document.write("El segundo valor introducido no es un número");
+        }
+    </script>
+</body>
+
+</html>

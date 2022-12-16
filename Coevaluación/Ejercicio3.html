@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repaso Objetos</title>
+    <script>
+    </script>
+</head>
+
+<body>
+    <script>
+        class Vehiculo {
+            constructor(marca, modelo, color, añoFabricacion, cilindrada) {
+                this.marca = marca;
+                this.modelo = modelo;
+                this.color = color;
+                this.añoFabricacion = añoFabricacion;
+                this.cilindrada = cilindrada;
+            }
+
+            acelerar(velocidad) {
+                return "El coche ha acelerado " + velocidad + " km por hora."
+            }
+
+            arrancar() {
+                return "El coche de marca " + this.marca + ", modelo " + this.modelo + ", de color " + this.color + " ha arrancado."
+            }
+
+            frenar() {
+                return "El coche de marca " + this.marca + ", modelo " + this.modelo + ", de color " + this.color + " ha parado."
+            }
+        }
+
+        class Furgoneta extends Vehiculo {
+            constructor(marca, modelo, color, añoFabricacion, cilindrada, nPasajeros) {
+                super(marca, modelo, color, añoFabricacion, cilindrada)
+                this.nPasajeros = nPasajeros;
+            }
+
+            getInfo() {
+                return "Marca: " + this.marca +
+                    "<br>Modelo: " + this.modelo +
+                    "<br>Color: " + this.color +
+                    "<br>Año de Fabricación: " + this.añoFabricacion +
+                    "<br> Numero de pasajeros: " + this.nPasajeros;
+            }
+        }
+
+        class Todoterreno extends Vehiculo {
+            constructor(marca, modelo, color, añoFabricacion, cilindrada, traccion) {
+                super(marca, modelo, color, añoFabricacion, cilindrada)
+                this.traccion = traccion;
+            }
+
+            getInfo() {
+                return "Marca: " + this.marca +
+                    "<br>Modelo: " + this.modelo +
+                    "<br>Color: " + this.color +
+                    "<br>Año de Fabricación: " + this.añoFabricacion +
+                    "<br> Traccion: " + this.traccion;
+            }
+        }
+
+        let furgoneta1 = new Furgoneta("Opel", "K56", "Rojo", 1999, 50, 12);
+        let todoterreno1 = new Todoterreno("Opel", "K56", "Rojo", 1999, 50, true);
+        document.write(furgoneta1.getInfo());
+        document.write("<hr>" + todoterreno1.getInfo());
+    </script>
+</body>
+
+</html>

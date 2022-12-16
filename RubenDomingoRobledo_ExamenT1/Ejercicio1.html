@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1</title>
+    <script>
+    </script>
+</head>
+
+<body>
+    <script>
+        //Ejercicio 1
+        class Dado {
+            constructor(nCaras, color, tipoDado) {
+                if (nCaras > 1) {
+                    this.nCaras = nCaras
+                }
+                this.color = color
+                if (tipoDado.includes('Numeros', 'Letras', 'Vocales', 'Silabas') == true) {
+                    this.tipoDado = tipoDado
+                }
+            }
+
+            calcularValorCaras() {
+                this.valorCaras = [];
+                for (let x = 1; x <= this.nCaras; x++) {
+                    this.valorCaras.push(x);
+                }
+                return this.valorCaras;
+            }
+
+            lanzarDado() {
+                this.valorActivo = parseInt((Math.random() * this.nCaras) + 1);
+                return this.valorActivo;
+            }
+
+            getInfo() {
+                return "Numero de Caras: " + this.nCaras +
+                    "<br>Color Dado: " + this.color +
+                    "<br>Tipo Dado: " + this.tipoDado +
+                    "<br>Valor Caras: " + this.valorCaras +
+                    "<br>Valor Activo: " + this.valorActivo;
+            }
+        };
+
+        let dado1 = new Dado(6, "Rojo", "Numeros");
+        dado1.calcularValorCaras();
+        dado1.lanzarDado();
+        document.write(dado1.getInfo())
+
+        let dado2 = new Dado(6, "Azul", "Numeros");
+        dado1.calcularValorCaras();
+        dado1.lanzarDado();
+        document.write("<hr>" + dado1.getInfo() + "<br><br>")
+
+        //Ejercicio 2
+        lanzamientos = [];
+        nlanzamientos = parseInt(Math.random() * 15) + 15
+
+        for (let i = 1; i <= nlanzamientos; i++) {
+            dadoLanzar1 = dado1.lanzarDado();
+            dadoLanzar2 = dado2.lanzarDado();
+            sum = dadoLanzar1 + dadoLanzar2;
+            document.write("Lanzamiento " + i + " dado 1: " + dadoLanzar1);
+            document.write("<br> Lanzamiento " + i + " dado 2: " + dadoLanzar2);
+            lanzamientos.push(sum);
+            document.write("<br> Suma de lanzamientos en esta ronda: " + sum + "<hr>");
+        }
+
+        //Lanzamientos obtenidos
+        document.write("<br> Conjunto de lanzamientos obtenidos: " + lanzamientos);
+
+        //Numero de lanzamientos realizados
+        document.write("<br> Lanzamientos realizados: " + nlanzamientos);
+
+        //Lanzamientos quitando el primer Elemnto y ultimo
+        lanzamientosModificado = lanzamientos
+        primerElemnt = lanzamientosModificado.pop();
+        ultimoElemento = lanzamientosModificado.shift();
+        document.write("<br> Conjunto de lanzamientos quitando el primero y ultimo elemento: " + lanzamientosModificado);
+
+        //Lanzamientos menores que 7
+        lanzamientosModificado2 = lanzamientos
+        let menores7 = lanzamientosModificado2.map(function (x) {
+            if (x < 7) {
+                return x;
+            }
+        });
+        document.write("<br> Conjunto de lanzamientos menores de 7: " + menores7);
+
+        //Triple de cada valor
+        var tripleArray = lanzamientos.map(function (valor) {
+            return valor * 3;
+        })
+
+        document.write("<br> Triple de elementos del array: " + tripleArray);
+
+        //Ordenar lanzamientos de menor a mayor
+        lanzamientos.sort(function (numero1, numero2) {
+            if (numero1 > numero2) {
+                return 1;
+            }
+            else {
+                return -1;
+            }
+        })
+        document.write("<br> Conjunto de lanzamientos ordenados de menor a mayor: " + lanzamientos);
+
+        //Ordenar lanzamientos de mayor a menor
+        lanzamientos.sort(function (numero1, numero2) {
+            if (numero1 > numero2) {
+                return -1;
+            }
+            else {
+                return 1;
+            }
+        })
+        document.write("<br> Conjunto de lanzamientos ordenados de mayor a menor: " + lanzamientos);
+
+        //Media de lanzamientos
+        function media(array) {
+            let total = array.reduce((total, valor) => total += valor);
+            return total / array.length;
+        }
+        document.write("<br> Media de lanzamientos obtenidos: " + media(lanzamientos));
+
+        //Mediana de lanzamientos
+        let mediana = 0;
+        let mitad = lanzamientos.length / 2
+        if (lanzamientos.length % 2 == 0) {
+            mediana = (lanzamientos[mitad - 1] + lanzamientos[mitad]) / 2;
+        }
+        else {
+            mediana = lanzamientos[mitad - 0.5];
+        }
+        document.write("<br> Mediana de lanzamientos obtenidos: " + mediana);
+
+        //Moda lanzamientos
+
+        //Porcentaje lanzamientos para cada valor
+
+    </script>
+</body>
+
+</html>

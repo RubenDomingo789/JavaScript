@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<!-- saved from url=(0088)https://cipfpbatoi.github.io/materials/daw/dwc/01-js/ejercicios/ejemplos/ejemploDOM.html -->
+<html lang="es">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ejemplo de DOM3</title>
+</head>
+
+<body>
+  <img src="formulario.jpg">
+  <h1>Formulario</h1>
+  <p><b>Completa el siguiente formulario</b></p>
+  <form>
+    <!-- action="ejemplo.php" method="get">-->
+    <p>Nombre: <input type="text" name="nombre" size="40"></p>
+    <p>Apellidos:
+      <input type="text" name="apellidos" size="40" placeholder="Escriba sus dos apellidos">
+    </p>
+    <p>A�o de nacimiento: <input type="number" name="nacido" min="1900"></p>
+    <p>Nacionalidad:
+      <SELECT NAME="lista1">
+        <OPTION>
+        <OPTION>Espa�ola
+        <OPTION>Alemana
+        <OPTION>Francesa
+      </SELECT>
+    </p>
+    <p>Sexo:
+      <input type="radio" name="hm" value="h"> Hombre
+      <input type="radio" name="hm" value="m"> Mujer
+    </p>
+    <p>Deportes favoritos:
+      <input type="checkbox" name="casilla1">futbol
+      <input type="checkbox" name="casilla2">baloncesto
+      <input type="checkbox" name="casilla3">atletismo
+    </p>
+    <p>Comentarios:
+      <textarea id="texto"></textarea>
+    </p>
+    <p>
+      <!--<input type="submit" id="button1" value="Enviar">
+     <input type="reset" id="button2" value="Borrar">
+    -->
+      <input type="button" id="button1" value="Enviar">
+      <input type="button" id="button2" value="Borrar">
+      <input type="button" id="button3" value="Click me">
+    </p>
+  </form>
+</body>
+<script>
+  //Aumentar imagen
+  let imagen = document.getElementsByTagName('img')[0];
+  imagen.addEventListener("mouseover", function () {
+    imagen.width = 60;
+    imagen.height = 60;
+  });
+  imagen.addEventListener("mouseleave", function () {
+    imagen.width = 39;
+    imagen.height = 39;
+  });
+</script>
+<script>
+  //Click en parrafo
+  let parrafo = document.getElementsByTagName('p')[0];
+  parrafo.addEventListener("dblclick", function () {
+    var cabecera = document.getElementsByTagName('h1')[0];
+    cabecera.style.color = "blue";
+  });
+</script>
+<script>
+  //Transformar caracteres
+  let input1 = document.getElementsByTagName('input')[0];
+  input1.addEventListener("blur", function () {
+    let m = input1.value.toUpperCase();
+    this.value = m;
+  });
+</script>
+<script>
+  //Cambiar estilo de etiquetas
+  let parrafos = document.getElementsByTagName('p');
+  let input2 = document.getElementsByTagName('input');
+
+  //for (var i = 0; i < input2.length; i++) {
+    //input2[i].addEventListener("blur", function () {
+      //console.log(parrafos[i]);
+      //parrafo.style.color = "red";
+    //})
+  //};
+</script>
+<script>
+  //Eliminar campo si existen datos
+  let apellidos = document.getElementsByTagName('input')[1];
+  apellidos.addEventListener("blur", function () {
+    if (apellidos.value != "") {
+      apellidos.remove();
+    }
+  });
+</script>
+<script>
+  //Datos año de nacimiento
+  let anno = document.getElementsByTagName('input')[2];
+  let parrafo3 = document.getElementsByTagName('p')[4];
+  anno.addEventListener("blur", function () {
+    if (anno.value != "") {
+      let parrafo = document.createElement("p");
+
+      if (((anno.value % 4 == 0) && (anno.value % 100 != 0)) || (anno.value % 400 == 0)) {
+        parrafo.innerText = anno.value + " => Es bisiesto | Años: " + (2022 - anno.value);
+      }
+      else {
+        parrafo.innerText = anno.value + " => No es bisiesto | Años: " + (2022 - anno.value);
+      }
+
+      document.querySelector("form").insertBefore(parrafo, parrafo3);
+    }
+  });
+</script>
+<script>
+  //Alert nacionalidad
+  var nacionalidad = document.getElementsByTagName('select')[0];
+
+  nacionalidad.addEventListener("click", function () {
+    if (nacionalidad.value != "") {
+      alert("Nacionalidad: " + nacionalidad.value);
+    }
+  });
+</script>
+<script>
+  //Valor checkbox
+  let deportes = document.getElementsByTagName('p')[6].getElementsByTagName('input');
+  let sexo = document.getElementsByTagName('p')[5].getElementsByTagName('input');
+  let comentarios = document.getElementsByTagName('p')[7];
+  let parrafo2 = document.createElement('p');
+  let contadorDeportes = 1;
+  let contadorSexo = 1;
+
+  for (var i = 0; i < deportes.length; i++) {
+    deportes[i].addEventListener("click", function () {
+      parrafo.innerText = "Cambios efectuados sobre deportes: " + contadorDeportes++;
+      document.querySelector("form").insertBefore(parrafo, comentarios);
+    });
+  }
+
+  for (var i = 0; i < sexo.length; i++) {
+    sexo[i].addEventListener("click", function () {
+      parrafo2.innerText = "Cambios efectuados sobre sexo: " + contadorSexo++;
+      document.querySelector("form").insertBefore(parrafo2, comentarios);
+    });
+  }
+</script>
+<script>
+  //Alert letra w
+  comentarios.addEventListener("keypress", e => {
+    var letra = (e.key ? e.key : e.which);
+    if (letra == "w" || letra == "W") {
+      alert("Has pulsado la letra W");
+    }
+  });
+</script>
+<script>
+  //Alert texto seleccionado
+  let textarea = document.getElementById('texto');
+  texto.addEventListener('select', event => {
+    let textarea = event.target;
+    let selection = textarea.value.substring(textarea.selectionStart, textarea.selectionEnd);
+    alert(selection)
+  });
+</script>
+<script>
+  //Borrar campos
+  let boton = document.getElementById('button2');
+  let inputs = document.getElementsByTagName('input');
+
+  boton.addEventListener('click', event => {
+    if (confirm("¿Seguro que quieres borrar todos los campos?")) {
+      for (var i = 0; i < inputs.length - 3; i++) {
+        inputs[i].value = "";
+      }
+    };
+
+  });
+</script>
+<script>
+  //Enviar campos
+  let boton2 = document.getElementById('button1');
+  let inputs2 = document.getElementsByTagName('input');
+  var band = false
+
+  boton2.addEventListener('click', event => {
+    for (var i = 0; i < inputs2.length - 3; i++) {
+      if (inputs2[i].value != "") {
+        boton.disabled = true;
+      }
+      else {
+        if (!band) {
+          alert("Debes completar todos los campos");
+          band = true;
+        }
+      }
+    }
+  });
+</script>
+<script>
+  //Clicks en boton
+  let boton3 = document.getElementById('button3');
+  let contador = 0;
+  let inputText = document.createElement('input');
+  let ultimoParrafo = document.getElementsByTagName('p')[8];
+
+  boton3.addEventListener('click', event => {
+    contador++;
+    inputText.value = "Clicks: " + contador;
+    inputText.style.width = 100;
+    document.querySelector("form").insertBefore(inputText, ultimoParrafo);
+  });
+</script>
+<script>
+  //Clicks en el documento
+  document.addEventListener('click', (event) => {
+    alert(event.target);
+  });
+</script>
+<script>
+  //Posicion del puntero
+  let parrafo4 = document.createElement('p');
+
+  document.addEventListener('mouseover', (event) => {
+    parrafo4.innerText = "Posicion X: " + event.screenX + ", Posicion Y: " + event.screenY;
+    document.querySelector("form").append(parrafo4);
+  });
+</script>

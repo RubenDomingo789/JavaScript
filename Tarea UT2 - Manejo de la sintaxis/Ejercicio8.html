@@ -1,0 +1,26 @@
+<html>
+
+<body>
+    <script>
+        var num = prompt("Introduce un numero entero: ");
+
+        var cubo = (numero) => {
+            if(numero % 1 == 0) {
+                return Math.pow(numero, 3);
+            }
+            else {
+                alert("El valor introducido no es válido")
+                return false;
+            }
+        }
+
+        var resultado = cubo(num);
+        
+        if (resultado != false) {
+            alert ("El cubo de " + num + " es " + resultado);
+        }
+    </script>
+
+</body>
+
+</html>
