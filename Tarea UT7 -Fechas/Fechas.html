@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio Fechas</title>
+    <script>
+    </script>
+</head>
+
+<body>
+    <script>
+        // 1.Creacion de variables
+        let fecNac1 = new Date('2002-06-30')
+        var fecNac2 = new Date(2002, 06, 30);
+        let fechaHoy = new Date();
+        var fechaEnero = new Date(2022, 01, 01);
+
+        // 2.Dia de nacimiento
+        let dia = fecNac1.getDay();
+        switch (dia) {
+            case 1:
+                document.write("Dia de nacimiento: Lunes");
+                break;
+            case 2:
+                document.write('Dia de nacimiento: Martes');
+                break;
+            case 3:
+                document.write('Dia de nacimiento: Miercoles');
+                break;
+            case 4:
+                document.write('Dia de nacimiento: Jueves');
+                break;
+            case 5:
+                document.write('Dia de nacimiento: Viernes');
+                break;
+            case 6:
+                document.write('Dia de nacimiento: Sábado');
+                break;
+            case 0:
+                document.write('Dia de nacimiento: Domingo');
+                break;
+        }
+
+        // 3.Modificar fecha a la de tu cumpleaños este año
+        fecNac1.setFullYear(2022);
+        document.write('<br>Fecha de cumpleaños de este año: ' + fecNac1 + "<br>");
+
+        // 4. Mostrar dia de la semana de tu cumpleaños este año
+        let dia2 = fecNac1.getDay();
+        switch (dia2) {
+            case 1:
+                document.write("Dia de cumpleaños: Lunes");
+                break;
+            case 2:
+                document.write('Dia de cumpleaños: Martes');
+                break;
+            case 3:
+                document.write('Dia de cumpleaños: Miercoles');
+                break;
+            case 4:
+                document.write('Dia de cumpleaños: Jueves');
+                break;
+            case 5:
+                document.write('Dia de cumpleaños: Viernes');
+                break;
+            case 6:
+                document.write('Dia de cumpleaños: Sábado');
+                break;
+            case 0:
+                document.write('Dia de cumpleaños: Domingo');
+                break;
+        }
+
+        // 5.Numero de dias de vida
+        function diasVida() {
+            if (fecNac1 > fecNac2) {
+                var resta = fecNac1.getTime() - fecNac2.getTime();
+                document.write('<br>Dias de vida: ' + Math.round(resta / (1000 * 60 * 60 * 24)));
+            }
+            else if (fecNac1 != null && fecNac1 < fecNac2) {
+                alert("La fecha final de la promoción debe ser mayor a la fecha inicial");
+            }
+        }
+        diasVida();
+
+        // 6.Formatos de fecha y hora
+        document.write('<br>Fecha de hoy: ' + fechaHoy.toLocaleString());
+        document.write('<br>Fecha de hoy: ' + fechaHoy.toUTCString());
+        document.write('<br>Fecha de hoy: ' + fechaHoy.toISOString());
+        document.write('<br>Fecha de hoy: ' + fechaHoy.toString());
+        document.write('<br>Fecha de hoy: ' + fechaHoy.getDate() + "-" + fechaHoy.getMonth() + "-" + fechaHoy.getFullYear() + ", " + fechaHoy.toLocaleTimeString());
+
+        // 7.Comprobar si la fecha de nacimiento es mayor que el 1 de enero de este año
+        if (fecNac2 > fechaEnero) {
+            document.write('<br>La fecha de nacimiento es mayor que el 1 de enero de este año')
+        }
+        else if (fecNac2.getTime() == fechaEnero.getTime()) {
+            document.write('<br>Son la misma fecha');
+        }
+        else {
+            document.write('<br>La fecha de nacimiento es menor que el 1 de enero de este año')
+        }
+    </script>
+</body>
+
+</html>
