@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Ejercicio 2</title>
+</head>
+
+<body>
+    <form>
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre"
+            pattern="[a-zA-Z àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]{3,20}"
+            required></br>
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" name="apellidos" id="apellidos"
+            pattern="[a-zA-Z àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]{4,40}"
+            required></br>
+        <label for="usuario">Usuario:</label>
+        <input type="text" name="usuario" id="usuario" minlength="7" required></br>
+
+        <label for="correo">Correo Electronico:</label>
+        <input type="email" name="correo" id="correo" required></br>
+
+        <label for="telefono">Telefono:</label>
+        <input type="text" name="telefono" id="telefono" pattern="[0-9]{9}" required></br>
+
+        <label for="fecha">Fecha Nacimiento:</label>
+        <input type="date" name="fecha" id="fecha" required></br>
+
+        <label for="checkbox">Preferencias color:</label>
+        <label><input type="checkbox" name="valor1" />Rojo</label>
+        <label><input type="checkbox" name="valor2" />Azul</label>
+        <label><input type="checkbox" name="valor3" />Verde</label>
+        <label><input type="checkbox" name="valor4" />Naranja</label>
+        <label><input type="checkbox" name="valor5" />Amarillo</label></br>
+
+        <label for="foto">Foto de perfil:</label>
+        <input type="file" name="foto" id="file" accept="image/png, image/jpeg, image/jpg, image/gif"
+            onchange="mostrar()" required></br></br>
+        <img id="img" /></br>
+
+        <button>Enviar</button>
+    </form>
+</body>
+<script>
+    //Validación fecha
+    function calcularEdad(fecha) {
+        let fecha_actual = new Date();
+        let anno_actual = new Date().getFullYear();
+        let mes_actual = new Date().getMonth() + 1;
+        let dia_actual = new Date().getDate();
+
+        let anno_nac = parseInt(String(fecha).substring(0, 4))
+        let mes_nac = parseInt(String(fecha).substring(5, 7))
+        let dia_nac = parseInt(String(fecha).substring(8, 10))
+
+        let edad = anno_actual - anno_nac;
+
+        if (mes_actual < mes_nac) {
+            edad--;
+        } else if (mes_actual == mes_nac) {
+            if (dia_actual < dia_nac) {
+                edad--;
+            }
+        }
+        return edad;
+    }
+
+    let fecha = document.getElementById("fecha");
+
+    fecha.addEventListener("blur", function () {
+        let edad = calcularEdad(fecha.value)
+        if (edad < 18) {
+            alert("El usuario tiene menos de 18 años.")
+            fecha.value = "";
+        }
+    });
+
+    //Validación checkbox
+    let checkboxes = document.querySelectorAll("[type='checkbox']");
+    let cont = 0;
+
+    document.getElementsByTagName("button")[0].addEventListener("click", function () {
+        for (let x = 0; x < checkboxes.length; x++) {
+            if (checkboxes[x].checked) {
+                cont = cont + 1;
+            }
+        }
+        if (cont < 2) {
+            alert("Debes marcar al menos 2 opciones en las preferencias de color");
+        }
+    });
+
+    //Foto perfil
+    function mostrar() {
+        var archivo = document.getElementById("file").files[0];
+        var reader = new FileReader();
+        if (file) {
+            reader.readAsDataURL(archivo);
+            reader.onloadend = function () {
+                document.getElementById("img").src = reader.result;
+            }
+        }
+    }
+</script>
+
+</html>
