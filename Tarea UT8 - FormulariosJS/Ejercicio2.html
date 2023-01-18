@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Ejercicio 2</title>
+    <style>
+        .error {
+            border: 2px solid red;
+
+        }
+    </style>
+</head>
+
+<body>
+    <form novalidate onsubmit="validar()">
+        <label for="nombre">Nombre:</label>
+        <input type="text" name="nombre" id="nombre"
+            pattern="[a-zA-Z àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]+"
+            minlength="3" maxlength="20" required></br>
+        <label for="apellidos">Apellidos:</label>
+        <input type="text" name="apellidos" id="apellidos"
+            pattern="[a-zA-Z àáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð]+"
+            minlength="4" maxlength="40" required></br>
+        <label for="usuario">Usuario:</label>
+        <input type="text" name="usuario" id="usuario" minlength="7" required></br>
+
+        <label for="correo">Correo Electronico:</label>
+        <input type="email" name="correo" id="correo" required></br>
+
+        <label for="telefono">Telefono:</label>
+        <input type="text" name="telefono" id="telefono" pattern="^[6789][0-9]{8}" required></br>
+
+        <label for="fecha">Fecha Nacimiento:</label>
+        <input type="date" name="fecha" id="fecha" required></br>
+
+        <label for="checkbox">Preferencias color:</label>
+        <label><input type="checkbox" name="valor1" />Rojo</label>
+        <label><input type="checkbox" name="valor2" />Azul</label>
+        <label><input type="checkbox" name="valor3" />Verde</label>
+        <label><input type="checkbox" name="valor4" />Naranja</label>
+        <label><input type="checkbox" name="valor5" />Amarillo</label></br>
+
+        <label for="foto">Foto de perfil:</label>
+        <input type="file" name="foto" id="file" accept="image/png, image/jpeg, image/jpg, image/gif"
+            onchange="mostrar()"></br>
+        <img id="img" /></br>
+
+        <p id="error" style="color: red;"></p>
+        <button>Enviar</button>
+    </form>
+</body>
+<script>
+    let nombre = document.getElementById("nombre");
+    let apellidos = document.getElementById("apellidos");
+    let usuario = document.getElementById("usuario");
+    let correo = document.getElementById("correo");
+    let telefono = document.getElementById("telefono");
+    let fecha = document.getElementById("fecha");
+    let inputs = document.getElementsByTagName("input");
+    let error = document.getElementById("error");
+    let boton = document.getElementsByTagName("button")[0];
+
+    function calcularEdad(fecha) {
+        let fecha_actual = new Date();
+        let anno_actual = new Date().getFullYear();
+        let mes_actual = new Date().getMonth() + 1;
+        let dia_actual = new Date().getDate();
+
+        let anno_nac = parseInt(String(fecha).substring(0, 4))
+        let mes_nac = parseInt(String(fecha).substring(5, 7))
+        let dia_nac = parseInt(String(fecha).substring(8, 10))
+
+        let edad = anno_actual - anno_nac;
+
+        if (mes_actual < mes_nac) {
+            edad--;
+        } else if (mes_actual == mes_nac) {
+            if (dia_actual < dia_nac) {
+                edad--;
+            }
+        }
+        return edad;
+    }
+
+    function validacionFecha() {
+        if (calcularEdad(fecha.value) < 18 || calcularEdad(fecha.value) > 99){
+            return false;
+        }
+        return true;
+    }
+
+    function validar() {
+        
+        //Validar si todos los campos son correctos y quita mensaje de error
+        for (var i = 0; i < inputs.length; i++) {
+            if (inputs[i].checkValidity() == true && validacionFecha() == true) {
+                error.innerHTML = "";
+            }
+            else {
+                event.preventDefault();
+            }
+        }
+
+        //Validacion fecha
+        if (fecha.validity.valueMissing) {
+            error.innerHTML = " <b>FECHA DE NACIMIENTO</b> campo obligatorio";
+            fecha.className = "error";
+        }
+        else if (fecha.validity.typeMismatch) {
+            error.innerHTML = "<b>FECHA DE NACIMIENTO</b> introducida no es una fecha";
+            fecha.className = "error";
+        }
+        else if (validacionFecha() == false) {
+            error.innerHTML = "La red social no es adecuada para usuarios menores de 18 o mayores de 99 años";
+            fecha.className = "error";
+        }
+        else {
+            fecha.className = "";
+        }
+
+        //Validacion telefono
+        if (telefono.validity.valueMissing) {
+            error.innerHTML = " <b>TELEFONO</b> campo obligatorio";
+            telefono.className = "error";
+        }
+        else if (telefono.validity.patternMismatch) {
+            error.innerHTML = "<b>TELEFONO</b> debe comenzar por 6, 7, 8 o 9 y tener una extensión fija de 9 cifras";
+            telefono.className = "error";
+        }
+        else {
+            telefono.className = "";
+        }
+
+        //Validacion correo
+        if (correo.validity.valueMissing) {
+            error.innerHTML = " <b>CORREO</b> campo obligatorio";
+            correo.className = "error";
+        }
+        else if (correo.validity.typeMismatch) {
+            error.innerHTML = "<b>CORREO</b> introducido no es email";
+            correo.className = "error";
+        }
+        else if (correo.value != usuario.value + "@gmail.com") {
+            error.innerHTML = "<b>CORREO</b> debe ser usuarioIntroducido@gmail.com";
+            correo.className = "error";
+        }
+        else {
+            correo.className = "";
+        }
+
+        //Validacion usuario
+        if (usuario.validity.valueMissing) {
+            error.innerHTML = " <b>USUARIO</b> campo obligatorio";
+            usuario.className = "error";
+        }
+        else if (usuario.validity.tooShort) {
+            error.innerHTML = "<b>USUARIO</b> debe tener al menos 7 caracteres";
+            usuario.className = "error";
+        }
+        else {
+            usuario.className = "";
+        }
+
+        //Validacion apellidos
+        if (apellidos.validity.valueMissing) {
+            error.innerHTML = " <b>APELLIDOS</b> campo obligatorio";
+            apellidos.className = "error";
+        }
+        else if (apellidos.validity.patternMismatch) {
+            error.innerHTML = "<b>APELLIDOS</b> no puede contener caracteres especiales ni números";
+            apellidos.className = "error";
+        }
+        else if (apellidos.validity.tooLong || apellidos.validity.tooShort) {
+            error.innerHTML = "<b>APELLIDOS</b> debe tener entre 4 y 40 caracteres";
+            apellidos.className = "error";
+        }
+        else {
+            apellidos.className = "";
+        }
+
+        //Validacion nombre
+        if (nombre.validity.valueMissing) {
+            error.innerHTML = " <b>NOMBRE</b> campo obligatorio";
+            nombre.className = "error";
+        }
+        else if (nombre.validity.patternMismatch) {
+            error.innerHTML = "<b>NOMBRE</b> no puede contener caracteres especiales ni números";
+            nombre.className = "error";
+        }
+        else if (nombre.validity.tooLong || nombre.validity.tooShort) {
+            error.innerHTML = "<b>NOMBRE</b> debe tener entre 3 y 20 caracteres";
+            nombre.className = "error";
+        }
+        else {
+            nombre.className = "";
+        }
+    }
+</script>
+
+</html>
