@@ -1,0 +1,11 @@
+npm run server
+http://localhost:3000/products?name=keyboard
+http://localhost:3000/products?_limit=2
+http://localhost:3000/products?_page=2&_limit=2
+http://localhost:3000/products?_sort=name
+localhost:3000/products?_sort=name&_order=desc 
+localhost:3000/products?_sort=name&_order=asc 
+localhost:3000/products?_page=1&_price>=100 
+localhost:3000/products?price_gte=100
+http://localhost:3000/products?price_gte=20&price_lte=200
+localhost:3000/products?q=1599.99

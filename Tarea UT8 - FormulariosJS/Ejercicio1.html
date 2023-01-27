@@ -35,7 +35,7 @@
 
         <label for="foto">Foto de perfil:</label>
         <input type="file" name="foto" id="file" accept="image/png, image/jpeg, image/jpg, image/gif"
-            onchange="mostrar()"></br>
+            onchange="mostrar()" required></br>
         <img id="img" />
 
         <p id="error" style="color: red;"></p>
@@ -138,7 +138,7 @@
             correo.value = "";
         }
         else if (validCorreo.test(this.value) != true) {
-            error.innerHTML = "El correo debe contener una @ y un .";
+            error.innerHTML = "El correo debe seguir este formato xxx@xxx.xxx";
         }
         else {
             error.innerHTML = "";
