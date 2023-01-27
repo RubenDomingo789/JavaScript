@@ -10,14 +10,20 @@
         #contenedor {
             display: flex;
             flex-direction: row;
-            justify-content: space-between;
+            justify-content: space-evenly;
+        }
+
+        #form {
+            border: 1px solid black;
+            padding: 20px;
+            border-radius: 10px;
         }
     </style>
 </head>
 
 <body>
     <div id="contenedor">
-        <div>
+        <div id="form">
             <form>
                 <h1>PRODUCTOS</h1>
                 <label for="nombre">Nombre:</label>
@@ -30,19 +36,19 @@
                 <input type="text" name="descripcion" id="descripcion" pattern="[a-zA-Z]+" required></br>
 
                 <label for="categorias">Categoria:</label>
-                <select name="categorias" id="categorias" required></select><br>
+                <select name="categorias" id="categorias" required></select><br><br>
 
                 <button id="postProducts">Insertar</button>
             </form>
         </div>
-        <div>
+        <div id="form">
             <form>
                 <h1>CATEGORÍAS</h1>
                 <label for="nombre">Nombre:</label>
-                <input type="text" name="nombre" id="nombre" pattern="[a-zA-Z]+" required></br>
+                <input type="text" name="nombre" id="nombreCategoria" pattern="[a-zA-Z]+" required></br>
 
                 <label for="descripcion">Descripcion:</label>
-                <input type="text" name="descripcion" id="descripcion" pattern="[a-zA-Z]+" required></br>
+                <input type="text" name="descripcion" id="descripcionCategoria" pattern="[a-zA-Z]+" required></br><br>
 
                 <button id="postCategories">Insertar</button>
             </form>
@@ -61,7 +67,7 @@
                 if (data[i]['name'] != '') {
                     opt = document.createElement("option");
                     opt.innerHTML = data[i]['name'].toUpperCase();
-                    opt.value = data[i]['name'];
+                    opt.value = data[i]['id'];
                     getCategorias.appendChild(opt);
                 }
             }
@@ -73,6 +79,10 @@
         let price = document.getElementById('precio');
         let description = document.getElementById('descripcion');
         let categoryId = document.getElementById('categorias');
+        let nombreCategoria = document.getElementById('nombreCategoria');
+        let descripcionCategoria = document.getElementById('descripcionCategoria');
+        let postProducts = document.getElementById('postProducts');
+        let postCategories = document.getElementById('postCategories');
 
         const sendProducts = () => {
             peticion.open('POST', 'http://localhost:3000/products');
@@ -82,18 +92,38 @@
             peticion.onload = () => {
                 const data = JSON.parse(peticion.response);
             };
-            if (nombre.checkValidity() == true && price.checkValidity() == true && description.checkValidity()) {
+
+            if (nombre.checkValidity() == true && price.checkValidity() == true && description.checkValidity() == true) {
                 peticion.send(JSON.stringify({
                     name: nombre.value,
                     price: price.value,
                     description: description.value,
-                    categoryId: categoryId.value
+                    categoryId: parseInt(categoryId.value)
                 }));
+                alert('Producto insertado');
+            }
+
+        };
+
+        const sendCategories = () => {
+            peticion.open('POST', 'http://localhost:3000/categories');
+
+            peticion.setRequestHeader('Content-Type', 'application/json');
+
+            peticion.onload = () => {
+                const data = JSON.parse(peticion.response);
+            };
+            if (nombreCategoria.checkValidity() == true && descripcionCategoria.checkValidity() == true) {
+                peticion.send(JSON.stringify({
+                    name: nombreCategoria.value,
+                    description: descripcionCategoria.value,
+                }));
+                alert('Categoria insertada');
             }
         };
 
         postProducts.addEventListener('click', sendProducts);
-        
+        postCategories.addEventListener('click', sendCategories);
     </script>
 </body>
 
