@@ -27,13 +27,6 @@
       "price": 399,
       "description": "Gaming Keyboard",
       "categoryId": 2
-    },
-    {
-      "name": "dds",
-      "price": "12",
-      "description": "sac",
-      "categoryId": 1,
-      "id": 5
     }
   ],
   "categories": [
@@ -46,11 +39,6 @@
       "id": 2,
       "name": "gaming",
       "description": "mouse, monitors, keyboards, etc"
-    },
-    {
-      "name": "sca",
-      "description": "sa",
-      "id": 3
     }
   ]
 }
