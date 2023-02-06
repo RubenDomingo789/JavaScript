@@ -100,8 +100,9 @@
                     if (peticion.status === 200) {
                         const data = JSON.parse(peticion.response)
                         const getNombres = document.getElementById('nombre');
-                        for (i = 0; i < getNombres.length; i++) {
-                            getNombres.removeChild(i);
+
+                        for (i = 0; i <= getNombres.length + 2; i++) {
+                            getNombres.remove(document.querySelector('option')[i]);
                         }
                         let opt;
 
@@ -123,21 +124,23 @@
             })
         })
 
-        document.getElementById('postCategories').addEventListener('click', function () {
+        boton.addEventListener('click', function () {
             new Promise(function (resolve, reject) {
                 let peticion = new XMLHttpRequest()
-                url = 'GET', SERVER + '/products?';
-                if (nomn)
-                    peticion.open();
+                let url = SERVER + '/products?';
+                url += 'name=' + nombre.value;
+
+                peticion.open('GET', url);
                 peticion.send()
 
                 peticion.addEventListener('load', () => {
                     if (peticion.status === 200) {
                         const data = JSON.parse(peticion.response)
-                        print(data);
+                        console.log(data);
 
                     } else {
                         reject("Error " + this.status + " (" + this.statusText + ") en lapetición")
+                        console.log("Error")
                     }
                 })
                 peticion.addEventListener('error', () => reject('Error en la petición HTTP'))
