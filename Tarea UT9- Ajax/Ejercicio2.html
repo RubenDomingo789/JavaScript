@@ -18,6 +18,20 @@
             padding: 20px;
             border-radius: 10px;
         }
+
+        table,
+        td,
+        th {
+            border: 1px solid black;
+            border-collapse: collapse;
+            padding: 5px;
+        }
+
+        div.tablaProductos {
+            position: relative;
+            margin-left: 580px;
+            margin-top: 50px;
+        }
     </style>
 </head>
 
@@ -25,7 +39,7 @@
     <div id="contenedor">
         <div id="form">
             <form action="">
-                <h1>PRODUCTOS</h1>
+                <h1 style="text-align: center;">PRODUCTOS</h1>
                 <label for="nombre">Nombre:</label>
                 <select name="nombre" id="nombre">
                     <option value=""></option>
@@ -44,6 +58,9 @@
                     <option value=""></option>
                 </select><br><br>
 
+                <label for="libre">Busqueda libre:</label>
+                <input type="text" name="libre" id="libre"></br><br>
+
                 <input type="button" id="getProducts" value="Filtrar" onclick="filtrarProductos()">
             </form>
         </div>
@@ -56,17 +73,16 @@
                 </select><br><br>
 
                 <label for="descripcion">Descripcion:</label>
-                <input type="text" name="descripcion" id="descripcionCategoria" pattern="[a-zA-Z]+" required></br><br>
+                <input type="text" name="descripcion" id="descripcionCategoria" pattern="[a-zA-Z]+"></br><br>
 
                 <input type="button" id="getCategories" value="Filtrar" onclick="filtrarCategorias()">
             </form>
         </div>
-
-        <div class="tablaProductos">
-            <table id="table">
-                <tbody id="tableBody"></tbody>
-            </table>
-        </div>
+    </div>
+    <div class="tablaProductos">
+        <table id="table">
+            <tbody id="tableBody"></tbody>
+        </table>
         <p id="msg"></p>
     </div>
     <script>
@@ -74,6 +90,7 @@
         let precioMin = document.getElementById('precio1');
         let precioMax = document.getElementById('precio2');
         let categoryId = document.getElementById('categorias');
+        let libre1 = document.getElementById('libre');
 
         let nombreCategoria = document.getElementById('nombreCategoria');
         let descripcionCategoria = document.getElementById('descripcionCategoria');
@@ -156,14 +173,18 @@
                 if (categoryId.value != '') {
                     url += 'categoryId=' + categoryId.value + '&';
                 }
+                if (nombre.value == '' && precioMax.value == '' && precioMin.value == '' && categoryId.value == '' && libre1.value != '') {
+                    url += 'categoryId=' + categoryId.value + '&';
+                }
+
 
                 peticion.open('GET', SERVER + '/products?' + url);
                 peticion.send();
-                console.log(peticion);
                 peticion.addEventListener('load', () => {
                     if (peticion.status === 200) {
                         const data = JSON.parse(peticion.responseText);
 
+                        document.getElementById('msg').innerHTML = "";
                         tabla.innerHTML = '';
                         var thead = document.createElement("thead");
                         var tr = document.createElement("tr");
@@ -180,7 +201,6 @@
 
                         var tableBody = document.createElement("tbody");
                         data.forEach(function (item) {
-                            console.log(item);
                             var row = tableBody.insertRow();
                             row.insertCell(0).innerHTML = item['id'];
                             row.insertCell(1).innerHTML = item['name'];
@@ -189,6 +209,8 @@
                         })
                         tabla.appendChild(tableBody);
                         if (tableBody.innerHTML == '') {
+                            document.getElementById('msg').innerHTML = "";
+                            tabla.innerHTML = '';
                             document.getElementById('msg').innerHTML = 'Ningun resultado para los filtros seleccionados';
                         }
                     }
@@ -200,7 +222,6 @@
             })
         }
 
-        /*
         function filtrarCategorias() {
             return new Promise(function (resolve, reject) {
                 let peticion = new XMLHttpRequest();
@@ -209,25 +230,41 @@
                     url += 'name=' + nombreCategoria.value + '&';
                 }
                 if (descripcionCategoria.value != '') {
-                    url += 'descripcion=' + descripcionCategoria.value + '&';
+                    url += 'description=' + descripcionCategoria.value + '&';
                 }
 
                 peticion.open('GET', SERVER + '/categories?' + url);
                 peticion.send();
-                console.log(peticion);
                 peticion.addEventListener('load', () => {
                     if (peticion.status === 200) {
                         const data = JSON.parse(peticion.responseText);
 
+                        document.getElementById('msg').innerHTML = "";
+                        tabla.innerHTML = '';
+                        var thead = document.createElement("thead");
+                        var tr = document.createElement("tr");
+
+                        var headers = ["ID", "Nombre", "Descripcion"];
+                        headers.forEach(function (header) {
+                            var th = document.createElement("th");
+                            th.textContent = header;
+                            tr.appendChild(th);
+                        });
+
+                        thead.appendChild(tr);
+                        tabla.appendChild(thead);
+
+                        var tableBody = document.createElement("tbody");
                         data.forEach(function (item) {
-                            console.log(item);
                             var row = tableBody.insertRow();
                             row.insertCell(0).innerHTML = item['id'];
                             row.insertCell(1).innerHTML = item['name'];
-                            row.insertCell(2).innerHTML = item['price'];
-                            row.insertCell(3).innerHTML = item['description'];
+                            row.insertCell(2).innerHTML = item['description'];
                         })
+                        tabla.appendChild(tableBody);
                         if (tableBody.innerHTML == '') {
+                            document.getElementById('msg').innerHTML = "";
+                            tabla.innerHTML = '';
                             document.getElementById('msg').innerHTML = 'Ningun resultado para los filtros seleccionados';
                         }
                     }
@@ -238,7 +275,6 @@
                 peticion.addEventListener('error', () => reject('Error en la petición HTTP'));
             })
         }
-        */
     </script>
 </body>
 
