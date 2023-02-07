@@ -24,10 +24,12 @@
 <body>
     <div id="contenedor">
         <div id="form">
-            <form>
+            <form action="">
                 <h1>PRODUCTOS</h1>
                 <label for="nombre">Nombre:</label>
-                <select name="nombre" id="nombre"></select><br>
+                <select name="nombre" id="nombre">
+                    <option value=""></option>
+                </select><br><br>
 
                 <label for="precio">Precio:</label>
                 <br>
@@ -38,32 +40,49 @@
 
                 <br>
                 <label for="categorias">Categoria:</label>
-                <select name="categorias" id="categorias"></select><br><br>
+                <select name="categorias" id="categorias">
+                    <option value=""></option>
+                </select><br><br>
 
-                <button id="getProducts">Buscar</button>
+                <input type="button" id="getProducts" value="Filtrar" onclick="filtrarProductos()">
             </form>
         </div>
         <div id="form">
             <form>
                 <h1>CATEGORÍAS</h1>
                 <label for="nombre">Nombre:</label>
-                <input type="text" name="nombre" id="nombreCategoria" pattern="[a-zA-Z]+" required></br>
+                <select name="nombre" id="nombreCategoria">
+                    <option value=""></option>
+                </select><br><br>
 
                 <label for="descripcion">Descripcion:</label>
                 <input type="text" name="descripcion" id="descripcionCategoria" pattern="[a-zA-Z]+" required></br><br>
 
-                <button id="postCategories">Insertar</button>
+                <input type="button" id="getCategories" value="Filtrar" onclick="filtrarCategorias()">
             </form>
         </div>
+
+        <div class="tablaProductos">
+            <table id="table">
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+        <p id="msg"></p>
     </div>
     <script>
         let nombre = document.getElementById('nombre');
         let precioMin = document.getElementById('precio1');
         let precioMax = document.getElementById('precio2');
         let categoryId = document.getElementById('categorias');
-        let boton = document.getElementById('getProducts');
 
+        let nombreCategoria = document.getElementById('nombreCategoria');
+        let descripcionCategoria = document.getElementById('descripcionCategoria');
+
+        let tabla = document.getElementById('table');
+        let boton = document.getElementById('getProducts');
+        let boton2 = document.getElementById('getCategorias');
         const SERVER = 'http://localhost:3000'
+
         new Promise(function (resolve, reject) {
             let peticion = new XMLHttpRequest()
             peticion.open('GET', SERVER + '/categories');
@@ -72,16 +91,20 @@
             peticion.addEventListener('load', () => {
                 if (peticion.status === 200) {
                     const data = JSON.parse(peticion.response)
-                    const getNombres = document.getElementById('categorias');
+                    const getCategoriaProductos = document.getElementById('categorias');
+                    const getNombreCategoria = document.getElementById('nombreCategoria');
                     let opt;
+                    let opt2;
 
                     for (i = 0; i < data.length; i++) {
-                        if (data[i]['name'] != '') {
-                            opt = document.createElement("option");
-                            opt.innerHTML = data[i]['name'].toUpperCase();
-                            opt.value = data[i]['id'];
-                            getNombres.appendChild(opt);
-                        }
+                        opt = document.createElement("option");
+                        opt.innerHTML = data[i]['name'].toUpperCase();
+                        opt.value = data[i]['id'];
+                        opt2 = document.createElement("option");
+                        opt2.innerHTML = data[i]['name'].toUpperCase();
+                        opt2.value = data[i]['name'];
+                        getCategoriaProductos.appendChild(opt);
+                        getNombreCategoria.appendChild(opt2);
                     }
                 } else {
                     reject("Error " + this.status + " (" + this.statusText + ") en lapetición")
@@ -90,62 +113,132 @@
             peticion.addEventListener('error', () => reject('Error en la petición HTTP'))
         })
 
-        nombre.addEventListener('click', function () {
-            new Promise(function (resolve, reject) {
-                let peticion = new XMLHttpRequest()
-                peticion.open('GET', SERVER + '/products');
-                peticion.send()
 
-                peticion.addEventListener('load', () => {
-                    if (peticion.status === 200) {
-                        const data = JSON.parse(peticion.response)
-                        const getNombres = document.getElementById('nombre');
+        new Promise(function (resolve, reject) {
+            let peticion = new XMLHttpRequest()
+            peticion.open('GET', SERVER + '/products');
+            peticion.send()
 
-                        for (i = 0; i <= getNombres.length + 2; i++) {
-                            getNombres.remove(document.querySelector('option')[i]);
-                        }
-                        let opt;
+            peticion.addEventListener('load', () => {
+                if (peticion.status === 200) {
+                    const data = JSON.parse(peticion.response)
+                    const getNombres = document.getElementById('nombre');
 
-                        for (i = 0; i < data.length; i++) {
-                            if (data[i]['name'] != '') {
-                                opt = document.createElement("option");
-                                opt.innerHTML = data[i]['name'].toUpperCase();
-                                opt.value = data[i]['name'];
-                                opt.className = 'options';
-                                getNombres.appendChild(opt);
-                            }
-                        }
-
-                    } else {
-                        reject("Error " + this.status + " (" + this.statusText + ") en lapetición")
+                    for (i = 0; i < data.length; i++) {
+                        opt = document.createElement("option");
+                        opt.innerHTML = data[i]['name'].toUpperCase();
+                        opt.value = data[i]['name'];
+                        opt.className = 'options';
+                        getNombres.appendChild(opt);
                     }
-                })
-                peticion.addEventListener('error', () => reject('Error en la petición HTTP'))
+
+                } else {
+                    reject("Error " + this.status + " (" + this.statusText + ") en lapetición")
+                }
             })
+            peticion.addEventListener('error', () => reject('Error en la petición HTTP'))
         })
 
-        boton.addEventListener('click', function () {
-            new Promise(function (resolve, reject) {
-                let peticion = new XMLHttpRequest()
-                let url = SERVER + '/products?';
-                url += 'name=' + nombre.value;
 
-                peticion.open('GET', url);
-                peticion.send()
+        function filtrarProductos() {
+            return new Promise(function (resolve, reject) {
+                let peticion = new XMLHttpRequest();
+                let url = ''
+                if (nombre.value != '') {
+                    url += 'name=' + nombre.value + '&';
+                }
+                if (precioMin.value != '') {
+                    url += 'price_gte=' + precioMin.value + '&';
+                }
+                if (precioMax.value != '') {
+                    url += 'price_lte=' + precioMax.value + '&';
+                }
+                if (categoryId.value != '') {
+                    url += 'categoryId=' + categoryId.value + '&';
+                }
 
+                peticion.open('GET', SERVER + '/products?' + url);
+                peticion.send();
+                console.log(peticion);
                 peticion.addEventListener('load', () => {
                     if (peticion.status === 200) {
-                        const data = JSON.parse(peticion.response)
-                        console.log(data);
+                        const data = JSON.parse(peticion.responseText);
 
-                    } else {
-                        reject("Error " + this.status + " (" + this.statusText + ") en lapetición")
-                        console.log("Error")
+                        tabla.innerHTML = '';
+                        var thead = document.createElement("thead");
+                        var tr = document.createElement("tr");
+
+                        var headers = ["ID", "Nombre", "Precio", "Descripcion"];
+                        headers.forEach(function (header) {
+                            var th = document.createElement("th");
+                            th.textContent = header;
+                            tr.appendChild(th);
+                        });
+
+                        thead.appendChild(tr);
+                        tabla.appendChild(thead);
+
+                        var tableBody = document.createElement("tbody");
+                        data.forEach(function (item) {
+                            console.log(item);
+                            var row = tableBody.insertRow();
+                            row.insertCell(0).innerHTML = item['id'];
+                            row.insertCell(1).innerHTML = item['name'];
+                            row.insertCell(2).innerHTML = item['price'];
+                            row.insertCell(3).innerHTML = item['description'];
+                        })
+                        tabla.appendChild(tableBody);
+                        if (tableBody.innerHTML == '') {
+                            document.getElementById('msg').innerHTML = 'Ningun resultado para los filtros seleccionados';
+                        }
+                    }
+                    else {
+                        reject("Error " + peticion.status + " (" + peticion.statusText + ") en la petición");
                     }
                 })
-                peticion.addEventListener('error', () => reject('Error en la petición HTTP'))
+                peticion.addEventListener('error', () => reject('Error en la petición HTTP'));
             })
-        })
+        }
+
+        /*
+        function filtrarCategorias() {
+            return new Promise(function (resolve, reject) {
+                let peticion = new XMLHttpRequest();
+                let url = ''
+                if (nombreCategoria.value != '') {
+                    url += 'name=' + nombreCategoria.value + '&';
+                }
+                if (descripcionCategoria.value != '') {
+                    url += 'descripcion=' + descripcionCategoria.value + '&';
+                }
+
+                peticion.open('GET', SERVER + '/categories?' + url);
+                peticion.send();
+                console.log(peticion);
+                peticion.addEventListener('load', () => {
+                    if (peticion.status === 200) {
+                        const data = JSON.parse(peticion.responseText);
+
+                        data.forEach(function (item) {
+                            console.log(item);
+                            var row = tableBody.insertRow();
+                            row.insertCell(0).innerHTML = item['id'];
+                            row.insertCell(1).innerHTML = item['name'];
+                            row.insertCell(2).innerHTML = item['price'];
+                            row.insertCell(3).innerHTML = item['description'];
+                        })
+                        if (tableBody.innerHTML == '') {
+                            document.getElementById('msg').innerHTML = 'Ningun resultado para los filtros seleccionados';
+                        }
+                    }
+                    else {
+                        reject("Error " + peticion.status + " (" + peticion.statusText + ") en la petición");
+                    }
+                })
+                peticion.addEventListener('error', () => reject('Error en la petición HTTP'));
+            })
+        }
+        */
     </script>
 </body>
 
