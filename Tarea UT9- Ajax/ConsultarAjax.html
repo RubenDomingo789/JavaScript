@@ -16,9 +16,14 @@
         #form {
             border: 1px solid black;
             padding: 20px;
+            padding-top: 10px;
             border-radius: 10px;
         }
 
+        select, input {
+            display: flex;
+            justify-content: flex-end;
+        }
         table,
         td,
         th {
@@ -28,9 +33,13 @@
         }
 
         div.tablaProductos {
-            position: relative;
-            margin-left: 580px;
-            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .disabled {
+            background-color: rgb(207, 198, 198);
         }
     </style>
 </head>
@@ -40,18 +49,19 @@
         <div id="form">
             <form action="">
                 <h1 style="text-align: center;">PRODUCTOS</h1>
+                <hr>
                 <label for="nombre">Nombre:</label>
                 <select name="nombre" id="nombre">
                     <option value=""></option>
                 </select><br><br>
 
-                <label for="precio">Precio:</label>
-                <br>
-                <label for="precio">Min: </label><input type="number" step="0.01" min="0.01" name="precioMin"
-                    id="precio1"></br>
-                <label for="precio">Max: </label><input type="number" step="0.01" min="precioMin" name="precioMax"
-                    id="precio2"></br>
+                <label for="precio">Precio Min: </label><input type="number" step="0.01" min="0.01" name="precioMin"
+                    id="precio1">
+                <label for="precio">Precio Max: </label><input type="number" step="0.01" min="precioMin" name="precioMax"
+                    id="precio2"></br><br>
 
+                <label for="descripcion">Descripcion:</label>
+                <input type="text" name="descripcion" id="descripcion"></br>
                 <br>
                 <label for="categorias">Categoria:</label>
                 <select name="categorias" id="categorias">
@@ -67,13 +77,17 @@
         <div id="form">
             <form>
                 <h1>CATEGORÍAS</h1>
+                <hr>
                 <label for="nombre">Nombre:</label>
                 <select name="nombre" id="nombreCategoria">
                     <option value=""></option>
                 </select><br><br>
 
                 <label for="descripcion">Descripcion:</label>
-                <input type="text" name="descripcion" id="descripcionCategoria" pattern="[a-zA-Z]+"></br><br>
+                <input type="text" name="descripcion" id="descripcionCategoria"></br><br>
+
+                <label for="libre">Busqueda libre:</label>
+                <input type="text" name="libre" id="libre2"></br><br>
 
                 <input type="button" id="getCategories" value="Filtrar" onclick="filtrarCategorias()">
             </form>
@@ -86,20 +100,24 @@
         <p id="msg"></p>
     </div>
     <script>
+        let form = document.getElementById('form');
         let nombre = document.getElementById('nombre');
         let precioMin = document.getElementById('precio1');
         let precioMax = document.getElementById('precio2');
+        let descripcion = document.getElementById('descripcion');
         let categoryId = document.getElementById('categorias');
         let libre1 = document.getElementById('libre');
 
         let nombreCategoria = document.getElementById('nombreCategoria');
         let descripcionCategoria = document.getElementById('descripcionCategoria');
+        let libre2 = document.getElementById('libre2');
 
         let tabla = document.getElementById('table');
         let boton = document.getElementById('getProducts');
         let boton2 = document.getElementById('getCategorias');
         const SERVER = 'http://localhost:3000'
 
+        //Desplegable categorias
         new Promise(function (resolve, reject) {
             let peticion = new XMLHttpRequest()
             peticion.open('GET', SERVER + '/categories');
@@ -130,7 +148,7 @@
             peticion.addEventListener('error', () => reject('Error en la petición HTTP'))
         })
 
-
+        //Desplegable productos
         new Promise(function (resolve, reject) {
             let peticion = new XMLHttpRequest()
             peticion.open('GET', SERVER + '/products');
@@ -156,7 +174,40 @@
             peticion.addEventListener('error', () => reject('Error en la petición HTTP'))
         })
 
+        //Deshabilitar o habilitar campo libre
+        let elements1 = document.querySelectorAll("#nombre, #precio1, #precio2, #categorias, #descripcion");
+        elements1 = Array.from(elements1);
+        elements1.forEach(function (element) {
+            element.addEventListener('change', function () {
+                if (element.value != '') {
+                    libre1.value = '';
+                    libre1.className = 'disabled';
+                    libre1.disabled = true;
+                }
+                else {
+                    libre1.className = '';
+                    libre1.disabled = false;
+                }
+            });
+        });
 
+        let elements2 = document.querySelectorAll("#nombreCategoria, #descripcionCategoria");
+        elements2 = Array.from(elements2);
+        elements2.forEach(function (element) {
+            element.addEventListener('change', function () {
+                if (element.value != '') {
+                    libre2.value = '';
+                    libre2.className = 'disabled';
+                    libre2.disabled = true;
+                }
+                else {
+                    libre2.className = '';
+                    libre2.disabled = false;
+                }
+            });
+        });
+
+        //Filtrar productos y montar la tabla
         function filtrarProductos() {
             return new Promise(function (resolve, reject) {
                 let peticion = new XMLHttpRequest();
@@ -170,11 +221,14 @@
                 if (precioMax.value != '') {
                     url += 'price_lte=' + precioMax.value + '&';
                 }
+                if (descripcion.value != '') {
+                    url += 'description=' + descripcion.value + '&';
+                }
                 if (categoryId.value != '') {
                     url += 'categoryId=' + categoryId.value + '&';
                 }
-                if (nombre.value == '' && precioMax.value == '' && precioMin.value == '' && categoryId.value == '' && libre1.value != '') {
-                    url += 'categoryId=' + categoryId.value + '&';
+                if (libre1.value != '') {
+                    url += 'q=' + libre1.value + '&';
                 }
 
 
@@ -189,7 +243,7 @@
                         var thead = document.createElement("thead");
                         var tr = document.createElement("tr");
 
-                        var headers = ["ID", "Nombre", "Precio", "Descripcion"];
+                        var headers = ["ID", "Nombre", "Precio", "Descripcion", "ID Categoria"];
                         headers.forEach(function (header) {
                             var th = document.createElement("th");
                             th.textContent = header;
@@ -206,6 +260,12 @@
                             row.insertCell(1).innerHTML = item['name'];
                             row.insertCell(2).innerHTML = item['price'];
                             row.insertCell(3).innerHTML = item['description'];
+                            if (item['categoryId'] == 1){
+                                row.insertCell(4).innerHTML = 'Computers';
+                            }
+                            else if (item['categoryId'] == 2){
+                                row.insertCell(4).innerHTML = 'Gaming';
+                            }
                         })
                         tabla.appendChild(tableBody);
                         if (tableBody.innerHTML == '') {
@@ -222,6 +282,7 @@
             })
         }
 
+        //Filtrar productos y montar la tabla
         function filtrarCategorias() {
             return new Promise(function (resolve, reject) {
                 let peticion = new XMLHttpRequest();
@@ -231,6 +292,9 @@
                 }
                 if (descripcionCategoria.value != '') {
                     url += 'description=' + descripcionCategoria.value + '&';
+                }
+                if (libre2.value != '') {
+                    url += 'q=' + libre2.value + '&';
                 }
 
                 peticion.open('GET', SERVER + '/categories?' + url);
