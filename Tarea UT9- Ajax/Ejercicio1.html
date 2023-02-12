@@ -85,24 +85,30 @@
         let postCategories = document.getElementById('postCategories');
 
         const sendProducts = () => {
-            peticion.open('POST', 'http://localhost:3000/products');
+            new Promise(function (resolve, reject) {
+                peticion.open('POST', 'http://localhost:3000/products');
 
-            peticion.setRequestHeader('Content-Type', 'application/json');
+                peticion.setRequestHeader('Content-Type', 'application/json');
 
-            peticion.onload = () => {
-                const data = JSON.parse(peticion.response);
-            };
+                peticion.addEventListener('load', () => {
+                    if (peticion.status === 200) {
+                        const data = JSON.parse(peticion.response);
+                    }
+                    else {
+                        reject("Error " + peticion.status + " (" + peticion.statusText + ") en la petición");
+                    }
+                })
 
-            if (nombre.checkValidity() == true && price.checkValidity() == true && description.checkValidity() == true) {
-                peticion.send(JSON.stringify({
-                    name: nombre.value,
-                    price: price.value,
-                    description: description.value,
-                    categoryId: parseInt(categoryId.value)
-                }));
-                alert('Producto insertado');
-            }
-
+                if (nombre.checkValidity() == true && price.checkValidity() == true && description.checkValidity() == true) {
+                    peticion.send(JSON.stringify({
+                        name: nombre.value,
+                        price: price.value,
+                        description: description.value,
+                        categoryId: parseInt(categoryId.value)
+                    }));
+                    alert('Producto insertado');
+                }
+            })
         };
 
         const sendCategories = () => {

@@ -84,20 +84,20 @@
 <script>
 
   function cambiarTextos() {
-    for (var i = 1; i <= 5; i++) {
+    for (var i = 2; i <= 5; i++) {
       document.getElementById("parrafo" + i).innerHTML = "Parrafo " + i + " cambiado";
     }
   }
 
   function cambiarClase() {
     for (var i = 1; i <= 5; i++) {
-      document.getElementById("parrafo" + i).setAttribute("class","miClase");
+      document.getElementById("parrafo" + i).setAttribute("class", "miClase");
     }
   }
 
   function quitarClase() {
     for (var i = 1; i <= 5; i++) {
-      document.getElementById("parrafo" + i).removeAttribute("class","miClase");
+      document.getElementById("parrafo" + i).removeAttribute("class", "miClase");
     }
   }
 
@@ -105,8 +105,8 @@
     var texto = document.getElementById("texto").value;
 
     var parrafo = document.createElement("p");
-    parrafo.innerText= texto;
-    parrafo.setAttribute("class","miClase");
+    parrafo.innerText = texto;
+    parrafo.setAttribute("class", "miClase");
 
     document.querySelector("form").append(parrafo);
   }
@@ -115,21 +115,24 @@
     var texto = document.getElementById("texto").value;
 
     var parrafo = document.createElement("p");
-    parrafo.innerText= texto;
-    parrafo.setAttribute("class","miClase");
+    parrafo.innerText = texto;
+    parrafo.setAttribute("class", "miClase");
 
     document.querySelector("form").append(parrafo);
   }
 
   function borrarUltimo() {
-    var parrafos = document.querySelectorAll("p");
-    var ultimoParrafo = parrafos[parrafos.length-1];
-    ultimoParrafo.remove();
+    var parrafo = document.getElementById('lipsum').lastElementChild;
+    document.getElementById('lipsum').removeChild(parrafo);
   }
 
   function borrarPrimero() {
-    var parrafo = document.querySelectorAll("p")[0];
-    parrafo.remove();
+
+    var parrafo = document.querySelectorAll("p")[1];
+
+    if (parrafo != document.getElementById('parrafo5')) {
+      parrafo.remove();
+    }
   }
 
   function remplazarParrafo() {
@@ -142,13 +145,13 @@
     document.getElementsByTagName("body")[0].replaceChild(parrafo, parrafoAntiguo);
   }
 
-  function crearImagen(){
+  function crearImagen() {
     var ruta = prompt("Introduzca una ruta con la imagen a cargar");
 
     var imagen = document.createElement("img");
     imagen.setAttribute("src", ruta);
-    imagen.setAttribute("alt",prompt("Introduce el texto alternativo: "));
-    
+    imagen.setAttribute("alt", prompt("Introduce el texto alternativo: "));
+
     document.getElementById("image").append(imagen);
   }
 </script>

@@ -73,7 +73,7 @@
 <script>
   //Transformar caracteres
   let input1 = document.getElementsByTagName('input')[0];
-  input1.addEventListener("blur", function () {
+  input1.addEventListener("input", function () {
     let m = input1.value.toUpperCase();
     this.value = m;
   });
@@ -83,12 +83,12 @@
   let parrafos = document.getElementsByTagName('p');
   let input2 = document.getElementsByTagName('input');
 
-  //for (var i = 0; i < input2.length; i++) {
-    //input2[i].addEventListener("blur", function () {
-      //console.log(parrafos[i]);
-      //parrafo.style.color = "red";
-    //})
-  //};
+  for (var i = 0; i < input2.length; i++) {
+    input2[i].addEventListener("blur", function () {
+      console.log(input2);
+      parrafos[i].style.color = "red";
+    })
+  };
 </script>
 <script>
   //Eliminar campo si existen datos
@@ -218,10 +218,12 @@
   });
 </script>
 <script>
+  /*
   //Clicks en el documento
   document.addEventListener('click', (event) => {
     alert(event.target);
   });
+  */
 </script>
 <script>
   //Posicion del puntero
